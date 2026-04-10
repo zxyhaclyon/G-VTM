@@ -9,6 +9,8 @@ We use three real-world datasets: [SinD-Tianjin](https://github.com/SOTIF-AVLab/
 ## Preprocessing
 
 Assuming that you have been granted access to any of the above-mentioned datasets, proceed by moving the unzipped content (folder) into the folder named `SinD_data/tianjin`, `inD_data/location1` or `rounD_data/location0` under the `raw_data` directory. 
+- Download processed datasets from following sources:
+    - <a href='https://pan.baidu.com/s/1TuVVE3T90K2c-pbhBk2Oxw?pwd=68c6'>BaiduNetDisk</a> code: `68c6`
 
 Methods of preprocessing are contained within Python scripts under the `data_process` directory. Executing them may be done from a terminal or IDE of choice **(from within this project folder)**, for example: 
 ```bash
