@@ -438,6 +438,9 @@ class Vision_Trajectory_Model(nn.Module):
         self.traj_pred = TrajDecoder(args)
         self.vit_path = args.pretrain_vit_path
         self.vit_model = ViTModel.from_pretrained(self.vit_path).to(self.args.device)
+        for param in self.vit_model.parameters():
+            param.requires_grad = False
+        self.vit_model.eval()
         self.sample_model = SampleCrossAttention(args)
         self.image_kd_loss = KD_loss(alpha=0.5, temperature=0.5)
         self.layernorm = nn.LayerNorm(args.vtm_hidden_size, args.vtm_layer_norm_eps)
