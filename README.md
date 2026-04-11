@@ -9,8 +9,8 @@ We use three real-world datasets: [SinD-Tianjin](https://github.com/SOTIF-AVLab/
 ## Preprocessing
 
 Assuming that you have been granted access to any of the above-mentioned datasets, proceed by moving the unzipped content (folder) into the folder named `SinD_data/tianjin`, `inD_data/location1`, or `rounD_data/location0` under the `raw_data` directory. 
-- Download processed datasets from the following sources:
-    - <a href='https://pan.baidu.com/s/1TuVVE3T90K2c-pbhBk2Oxw?pwd=68c6'>BaiduNetDisk</a> code: `68c6`
+Download raw datasets from the following sources:
+    - <a href='https://pan.baidu.com/s/1LRbTJqnqlz3npOkRqKNaKw?pwd=hzg4'>BaiduNetDisk</a> code: `hzg4`
 
 Methods of preprocessing are contained within Python scripts under the `data_process` directory. Executing them may be done from a terminal or IDE of choice **(from within this project folder)**, for example: 
 ```bash
@@ -21,11 +21,11 @@ python RounD_preprocess.py
 The output of the preprocessing scripts will be sent to a sub-folder with the name of the data set within the `./data` folder in this project.
 
 ## Usage
-
+Download the pretrained [vit-base-patch16-224](https://huggingface.co/models) from Hugging Face to the `VLM_Model` directory.
 Each dataset corresponds to a configuration file that defines the model, data, and training parameters under the `config` directory.
 
 ```bash
-python main.py --config ./config/VTM_inD_Location1.conf
+python main.py --config ./config/VTM_SinD_Tianjin.conf
 ```
 
 
