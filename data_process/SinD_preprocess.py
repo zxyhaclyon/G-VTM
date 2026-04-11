@@ -24,7 +24,9 @@ grid_dict={
 }
 
 def create_directories(data_folder):
-    root = f'./data/{data_folder}'
+    base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  # 当前脚本目录的上级目录
+    target_dir = os.path.join(base_dir, 'data')
+    root = f'{target_dir}/{data_folder}'
     top_dirs = ['training', 'validation', 'testing']
     sub_dirs = ['observation', 'target']
     for d in top_dirs:
@@ -34,7 +36,7 @@ def create_directories(data_folder):
             if os.path.exists(sub_dir):  # and overwrite:
                 shutil.rmtree(sub_dir)
             os.makedirs(sub_dir)
-    return data_folder
+    return root
 
 
 def euclidian(x1, y1, x2, y2):
@@ -328,7 +330,9 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--city", default='Tianjin', type=str, help="Tianjin")
     parser.add_argument("--data_save", default='SinD-Tianjin-new', type=str, help="[data save path->SinD-Tianjin]")
-    parser.add_argument("--data_read", default='./raw_data/SinD_data/tianjin', type=str, help="data read path")
+    base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  # 当前脚本目录的上级目录
+    read_dir = os.path.join(base_dir, 'raw_data')
+    parser.add_argument("--data_read", default=f'{read_dir}/SinD_data/tianjin', type=str, help="data read path")
     args = parser.parse_args()
     city = args.city
     root_folder = args.data_read
@@ -473,26 +477,26 @@ if __name__ == "__main__":
                     s_dict[curr_set] += 1
         
         # 一个城市的一段采集时间代表一个文件
-        if not os.path.exists(f'/data/ZhangXinyue/Multi_Model/data/{data_root}/training/observation/{record_id}'):
-            os.mkdir(f'/data/ZhangXinyue/Multi_Model/data/{data_root}/training/observation/{record_id}')
-            os.mkdir(f'/data/ZhangXinyue/Multi_Model/data/{data_root}/training/target/{record_id}')
-            os.mkdir(f'/data/ZhangXinyue/Multi_Model/data/{data_root}/validation/observation/{record_id}')
-            os.mkdir(f'/data/ZhangXinyue/Multi_Model/data/{data_root}/validation/target/{record_id}')
-            os.mkdir(f'/data/ZhangXinyue/Multi_Model/data/{data_root}/testing/observation/{record_id}')
-            os.mkdir(f'/data/ZhangXinyue/Multi_Model/data/{data_root}/testing/target/{record_id}')
-        np.savez(f'/data/ZhangXinyue/Multi_Model/data/{data_root}/training/observation/{record_id}/dat.npz', input = np.stack(train_data, axis=0))
-        np.savez(f'/data/ZhangXinyue/Multi_Model/data/{data_root}/training/observation/{record_id}/mask.npz', mask = np.stack(train_mask, axis=0))
-        np.savez(f'/data/ZhangXinyue/Multi_Model/data/{data_root}/training/observation/{record_id}/edge_feat.npz', edge = np.stack(train_edge_feat, axis=0))
-        np.savez(f'/data/ZhangXinyue/Multi_Model/data/{data_root}/training/target/{record_id}/label.npz', label = np.stack(train_target, axis=0))
+        if not os.path.exists(f'{data_root}/training/observation/{record_id}'):
+            os.mkdir(f'{data_root}/training/observation/{record_id}')
+            os.mkdir(f'{data_root}/training/target/{record_id}')
+            os.mkdir(f'{data_root}/validation/observation/{record_id}')
+            os.mkdir(f'{data_root}/validation/target/{record_id}')
+            os.mkdir(f'{data_root}/testing/observation/{record_id}')
+            os.mkdir(f'{data_root}/testing/target/{record_id}')
+        np.savez(f'{data_root}/training/observation/{record_id}/dat.npz', input = np.stack(train_data, axis=0))
+        np.savez(f'{data_root}/training/observation/{record_id}/mask.npz', mask = np.stack(train_mask, axis=0))
+        np.savez(f'{data_root}/training/observation/{record_id}/edge_feat.npz', edge = np.stack(train_edge_feat, axis=0))
+        np.savez(f'{data_root}/training/target/{record_id}/label.npz', label = np.stack(train_target, axis=0))
         
-        np.savez(f'/data/ZhangXinyue/Multi_Model/data/{data_root}/validation/observation/{record_id}/dat.npz', input = np.stack(valid_data, axis=0))
-        np.savez(f'/data/ZhangXinyue/Multi_Model/data/{data_root}/validation/observation/{record_id}/mask.npz', mask = np.stack(valid_mask, axis=0))
-        np.savez(f'/data/ZhangXinyue/Multi_Model/data/{data_root}/validation/observation/{record_id}/edge_feat.npz', edge = np.stack(valid_edge_feat, axis=0))
-        np.savez(f'/data/ZhangXinyue/Multi_Model/data/{data_root}/validation/target/{record_id}/label.npz', label = np.stack(valid_target, axis=0))
+        np.savez(f'{data_root}/validation/observation/{record_id}/dat.npz', input = np.stack(valid_data, axis=0))
+        np.savez(f'{data_root}/validation/observation/{record_id}/mask.npz', mask = np.stack(valid_mask, axis=0))
+        np.savez(f'{data_root}/validation/observation/{record_id}/edge_feat.npz', edge = np.stack(valid_edge_feat, axis=0))
+        np.savez(f'{data_root}/validation/target/{record_id}/label.npz', label = np.stack(valid_target, axis=0))
 
-        np.savez(f'/data/ZhangXinyue/Multi_Model/data/{data_root}/testing/observation/{record_id}/dat.npz', input = np.stack(test_data, axis=0))
-        np.savez(f'/data/ZhangXinyue/Multi_Model/data/{data_root}/testing/observation/{record_id}/mask.npz', mask = np.stack(test_mask, axis=0))
-        np.savez(f'/data/ZhangXinyue/Multi_Model/data/{data_root}/testing/observation/{record_id}/edge_feat.npz', edge = np.stack(test_edge_feat, axis=0))
-        np.savez(f'/data/ZhangXinyue/Multi_Model/data/{data_root}/testing/target/{record_id}/label.npz', label = np.stack(test_target, axis=0))
+        np.savez(f'{data_root}/testing/observation/{record_id}/dat.npz', input = np.stack(test_data, axis=0))
+        np.savez(f'{data_root}/testing/observation/{record_id}/mask.npz', mask = np.stack(test_mask, axis=0))
+        np.savez(f'{data_root}/testing/observation/{record_id}/edge_feat.npz', edge = np.stack(test_edge_feat, axis=0))
+        np.savez(f'{data_root}/testing/target/{record_id}/label.npz', label = np.stack(test_target, axis=0))
         
         print(record_id, ' Training:', s_dict['training'], ' Validation:', s_dict['validation'], ' Testing:', s_dict['testing'])
